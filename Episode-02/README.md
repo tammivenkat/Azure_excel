@@ -188,8 +188,7 @@ SRE Perspective
 Although Azure allows address space modification, I prefer designing the address space correctly from the beginning because changes in production environments can affect routing, peering, VPNs, and dependent services.
 
 ⭐ Bonus Question (Very Common in Interviews)
-Why do we create separate subnets instead of keeping everything in one subnet?
-Best Answer
+### Why do we create separate subnets instead of keeping everything in one subnet?
 
 Separate subnets provide logical isolation between workloads such as web, application, and database tiers. They allow different Network Security Groups, routing policies, and access controls to be applied to each layer, improving security, scalability, and manageability. This follows the principle of least privilege and reduces the attack surface.
 
@@ -211,10 +210,119 @@ Level 3 – Senior SRE (Design)
 
 Senior SRE interviews are usually won at Level 3. Given your 18+ years in infrastructure and operations, that's the level we're targeting. We'll still learn the basics thoroughly, but every lesson will gradually move toward production design, troubleshooting, and architecture so you're fully prepared for the roles you're aiming for in Hyderabad.
 
-5. Why is CIDR planning important?
-6. Can a VNet have multiple subnets?
-7. Can the address space be modified after deployment?
+### 5. Why is CIDR planning important?
+Ans:- CIDR planning is essential because it defines the IP address space available for Azure resources. Proper planning ensures enough IP addresses for current and future workloads, prevents overlapping address spaces, supports subnet segmentation, and simplifies hybrid connectivity with on-premises networks or other cloud environments.
 
+Practical Example
+
+Suppose:
+
+Azure VNet
+
+10.10.0.0/16
+
+Later you need:
+
+Web
+Application
+Database
+Kubernetes
+Bastion
+VPN Gateway
+
+If you initially chose:
+
+10.10.0.0/24
+
+you'll quickly run out of address space.
+
+Good planning avoids future redesign.
+
+SRE Perspective
+
+Poor CIDR planning becomes a major problem during cloud expansion, VNet peering, VPN connections, and mergers with other organizations. As an SRE, I always reserve sufficient address space for future growth.
+
+### 7. Can a VNet have multiple subnets?
+Ans:- Yes. A VNet can contain multiple subnets. Each subnet represents a logical network segment with its own IP range and can have different security rules, routing policies, and workloads.
+
+Example
+Azure VNet
+10.10.0.0/16
+
+│
+
+├── Web Subnet
+10.10.1.0/24
+
+├── App Subnet
+10.10.2.0/24
+
+├── Database Subnet
+10.10.3.0/24
+
+├── AKS Subnet
+10.10.4.0/24
+
+└── Bastion Subnet
+10.10.5.0/26
+Why?
+
+Different workloads require different security and network policies.
+
+For example:
+
+Web servers receive internet traffic.
+Application servers communicate only with the web tier.
+Databases accept connections only from the application tier.
+SRE Perspective
+
+I avoid placing all resources in one subnet because network segmentation improves security, simplifies management, and reduces the attack surface.
+
+
+### 9. Can the address space be modified after deployment?
+Ans:- Yes. Azure allows modifying the VNet address space after deployment, provided the changes do not conflict with existing subnets, peered VNets, VPN connections, or deployed resources. Any new address range must be carefully planned to avoid overlapping IP ranges.
+
+Practical Example
+
+Initially:
+
+10.10.0.0/16
+
+Later you expand:
+
+10.10.0.0/16
+
++
+
+10.20.0.0/16
+
+Azure supports this expansion if there are no conflicts.
+
+Important Interview Point
+
+You cannot create overlapping subnets inside the same VNet.
+
+Example:
+
+Subnet A
+
+10.10.1.0/24
+
+and
+
+Subnet B
+
+10.10.1.128/25
+
+❌ Azure will reject this because the IP ranges overlap.
+
+SRE Perspective
+
+Although Azure allows address space modification, I prefer designing the address space correctly from the beginning because changes in production environments can affect routing, peering, VPNs, and dependent services.
+
+### Why do we create separate subnets instead of keeping everything in one subnet?
+
+Separate subnets provide logical isolation between workloads such as web, application, and database tiers. They allow different Network Security Groups, routing policies, and access controls to be applied to each layer, improving security, scalability, and manageability. This follows the principle of least privilege and reduces the attack surface.
 ---
 
 ## Next Episode
