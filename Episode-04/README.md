@@ -31,3 +31,27 @@ will help many people because they run into exactly the same issue.
 One of the things I want to teach you is that viewers don't just want to see success—they want to learn how to solve problems. Those troubleshooting moments often become the most valuable parts of a technical tutorial.
 
 So, let's keep documenting not just what worked, but also what we fixed along the way. That will make your GitHub repository and future YouTube channel stand ou
+
+
+
+
+## SSH Verification
+
+Successfully connected from Windows 10 using SSH key authentication.
+
+Command:
+
+ssh -i web-vm-01_key.pem venkat@20.235.25.166
+
+Verified:
+
+- hostname
+- whoami
+- ip a
+- lsb_release -a
+- free -h
+- df -h
+- uptime
+
+Result:
+Successfully logged into Azure Ubuntu VM.
